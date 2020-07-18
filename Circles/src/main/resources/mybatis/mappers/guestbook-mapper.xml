@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="guestbook">
+
+	<select id="listGuestbook" resultType="GuestbookVO" parameterType="java.util.HashMap">
+		SELECT PAGING.GUEST_NO,PAGING.GUEST_TITLE,PAGING.USER_EMAIL,PAGING.USER_NAME,PAGING.GUEST_CONTENT,PAGING.GUEST_DATE,PAGING.GUEST_STATUS,PAGING.GUEST_HEART
+		FROM (SELECT ROWNUM RN, TEMP.*
+			FROM (SELECT * FROM GUESTBOOK ORDER BY GUEST_NO DESC) TEMP
+			) PAGING
+		WHERE PAGING.RN BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="totalGuestbook" resultType="int">
+		SELECT COUNT(*)
+		FROM GUESTBOOK
+	</select>
+	
+	<insert id="addGuestbook" parameterType="GuestbookVO">
+		INSERT INTO GUESTBOOK
+		VALUES(GUESTBOOK_SEQUENCE.NEXTVAL,#{guest_title},#{user_email},#{user_name},#{guest_content},SYSDATE,1,0)
+	</insert>
+	
+	<update id="modifyGuestbook" parameterType="GuestbookVO">
+		UPDATE GUESTBOOK
+		SET GUEST_TITLE = #{guest_title} , GUEST_CONTENT=#{guest_content}
+		WHERE GUEST_NO=#{guest_no}
+	</update>
+	
+	<delete id="deleteGuestbook" parameterType="int">
+		DELETE FROM GUESTBOOK
+		WHERE GUEST_NO = #{guest_no}
+	</delete>
+	
+	<select id="checkLike" parameterType="java.util.HashMap" resultType="String">
+		SELECT USER_EMAIL
+		FROM GUESTBOOK_HEART
+		WHERE GUEST_NO =#{guest_no} AND USER_EMAIL=#{user_email}
+	</select>
+	
+	<delete id="removeLike" parameterType="java.util.HashMap">
+		DELETE FROM GUESTBOOK_HEART
+		WHERE GUEST_NO =#{guest_no} AND USER_EMAIL=#{user_email}
+	</delete>
+	
+	<insert id="addLike" parameterType="java.util.HashMap">
+		INSERT INTO GUESTBOOK_HEART
+		VALUES(#{guest_no},#{user_email})
+	</insert>
+		
+	<update id="addHeart" parameterType="int">
+		UPDATE GUESTBOOK
+		SET GUEST_HEART=GUEST_HEART+1
+		WHERE GUEST_NO=#{guest_no}
+	</update>
+	
+	<update id="removeHeart" parameterType="java.util.HashMap">
+		UPDATE GUESTBOOK
+		SET GUEST_HEART=GUEST_HEART-1
+		WHERE GUEST_NO=#{guest_no}
+	</update>	
+</mapper>
