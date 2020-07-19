@@ -1,5 +1,7 @@
 package com.mvc.circle.model.dao;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +48,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public Boolean registerUser(UserVO user) {
 		logger.info("<< UserDaoImpl : registerUser >>");
-		int res = 0;
+		Integer res = 0;
 		try {
 			res = sqlSession.insert(NAMESPACE+"register",user);
 		} catch (Exception e) {
@@ -67,6 +69,32 @@ public class UserDaoImpl implements UserDao{
 			logger.error(e.getMessage());
 		}
 		return res;
+	}
+
+
+	@Override
+	public Boolean findUser(UserVO user) {
+		logger.info("<< UserDaoImpl : findUser >>");
+		String res = null;
+		try {
+			res = sqlSession.selectOne(NAMESPACE+"findUser",user);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return (res!=null)?true:false;
+	}
+
+
+	@Override
+	public Boolean changePwd(Map<String, Object> param) {
+		logger.info("<< UserDaoImpl : changePwd >>");
+		int res = 0;
+		try {
+			res = sqlSession.update(NAMESPACE+"changePwd",param);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return (res>0)?true:false;
 	}
 
 }

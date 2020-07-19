@@ -31,6 +31,20 @@
 		WHERE USER_EMAIL=#{user_email}
 	
 	</select>
+	
+	<!-- find User -->
+	<select id="findUser" parameterType="UserVO" resultType="String">
+		SELECT USER_EMAIL
+		FROM USER_TB
+		WHERE USER_NAME=#{user_name} AND USER_EMAIL = #{user_email}
+	</select>
+	
+	<!-- sendEmail -->
+	<update id="changePwd" parameterType="java.util.HashMap">
+		UPDATE USER_TB
+		SET USER_PASSWORD=#{user_password}
+		WHERE USER_NAME=#{user_name} AND USER_EMAIL=#{user_email}
+	</update>
 		
 		
 </mapper>

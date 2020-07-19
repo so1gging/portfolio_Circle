@@ -12,4 +12,8 @@ public interface UserService {
 
 	UserVO loginUser(UserVO user);
 
+	Boolean findUser(UserVO user);
+
+	Boolean changePwd(String receiveMail, String receiveName, String tempPwd);
+
 }

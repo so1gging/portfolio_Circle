@@ -38,4 +38,14 @@ public class MainController {
 			return "redirect:main";
 		}
 		
+		@RequestMapping("/findPwd")
+		public String findPwdView() {
+			return "/findPwd";
+		}
+		
+		@RequestMapping("/mypage")
+		public String mypageView() {
+			return "/mypage";
+		}
+		
 }

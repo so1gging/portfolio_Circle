@@ -14,13 +14,16 @@
             </div>
             
             <div class="navbar-right">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" style="display: inline-block;">
                 	<c:if test="${empty user }">
 	                    <li class="nav-item" style="margin: 20PX;"><a href="login" class="menulink" style="color: #0275d8;">로그인</a>
 	                    </li>                	
                 	</c:if>
                 	<c:if test="${!empty user }">
-	                    <li class="nav-item" style="margin: 20PX;"><a href="logout" class="menulink" style="color: #0275d8;">로그아웃</a>
+                		<li class="nav-item" style="margin: 20PX; display: inline-block;">
+                			<a href="mypage" class="menulink" style="color: #0275d8;">마이페이지</a>
+	                    </li>  
+	                    <li class="nav-item" style="margin: 20PX; display: inline-block;"><a href="logout" class="menulink" style="color: #0275d8;">로그아웃</a>
 	                    </li>                	
                 	</c:if>
                 </ul>

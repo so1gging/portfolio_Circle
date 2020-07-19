@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mvc.circle.model.service.UserService;
@@ -89,5 +90,27 @@ public class UserController {
 		
 		return param;
 	}	
+	
+	@RequestMapping(value="/find",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Boolean> findUser(@RequestBody UserVO user){
+		logger.info("<< UserController : findUser >>");
+		Boolean is = service.findUser(user);
+		Map<String,Boolean> param = new HashMap<String, Boolean>();
+		param.put("check", is);
+		return param;
+		
+	}
+	
+	@RequestMapping(value="/changePwd",method=RequestMethod.POST)
+	@ResponseBody
+	public Boolean changePwd(@RequestBody UserVO user) {
+		logger.info("<< UserController : changePwd >>");
+		
+		user.setUser_password(passwordEncoder.encode(user.getUser_password()));
+		Boolean is = service.changePwd(user.getUser_email(), user.getUser_name(), user.getUser_password());
+		
+		return is;
+	}
 
 }
